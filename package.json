@@ -1,5 +1,5 @@
 {
-  "name": "@ulyanov/css-to-html",
+  "name": "css2html",
   "version": "1.0.0",
   "author": "Ulyanov Ivan",
   "description": "The library for converting CSS to HTML",

@@ -145,7 +145,7 @@ The very minimum to run looks like this:
 
 ```js
 // This code outputs to the terminal/console the result of processing the simplest CSS from the single tag.
-import { CssToHtml } from 'css-to-html';
+import { CssToHtml } from 'css2html';
 
 let result = new CssToHtml({ css: 'div{}' });
 
@@ -233,6 +233,6 @@ new CssToHtml({
 })
 ```
 
-### If you find a bug, please create an issue [here](https://github.com/Ulyanov-programmer/css-to-html/issues).
+### If you find a bug, please create an issue [here](https://github.com/Ulyanov-programmer/css2html/issues).
 
-### If this project was useful to you, you can give it a ★ in [repository](https://github.com/Ulyanov-programmer/css-to-html).
+### If this project was useful to you, you can give it a ★ in [repository](https://github.com/Ulyanov-programmer/css2html).
