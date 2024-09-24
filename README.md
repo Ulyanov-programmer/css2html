@@ -1,5 +1,19 @@
 Special thanks to the author of the idea [akopyl](https://github.com/anatolykopyl).
 
+## Installation
+
+```shell
+npm i css2html
+```
+
+```shell
+yarn add css2html
+```
+
+```js
+import { CssToHtml } from 'css2html';
+```
+
 ## What is this?
 
 It converts this:
