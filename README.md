@@ -36,11 +36,11 @@ To this:
 
 ### Elements
 
-You can create an element through a selector:
+You can create an element via selector:
 
 ```css
 div.classname#id[attr-1][attr-2='v'] {
-  /* None of the parts of the selector are mandatory */
+  /* None of the parts of a selector are mandatory */
   /* But at least something needs to be left */
 }
 ```
@@ -120,7 +120,7 @@ div {
 <div>The battle continues again</div>
 ```
 
-In order to insert a tag _between the text_, you will definitely need special properties that allow you to enter text before and after the tag `--text-before` and `--text-after`:
+In order to insert a tag _between the text_, you will definitely need special properties that allow you to enter text before and after the tag: `--text-before` and `--text-after`
 
 ```css
 div {
@@ -154,13 +154,13 @@ console.log(result.outputHTML);
 
 ### Writing to a file
 
-To write the html that turned out to be directly in a file, add the `write` parameter:
+To write in a file, add the `write` parameter:
 <br>
 (_Attention! The entire file will be **overwritten**_)
 
 ```js
 new CssToHtml({
-  …
+  ...,
   write: {
     in: "your_path_to_html_file",
   },
@@ -177,7 +177,7 @@ Without `after` and `before` parameters:
 
 ```js
 new CssToHtml({
-  …
+  ...,
   write: {
     in: "your_path_to_html_file",
   },
@@ -198,7 +198,7 @@ With `after` and `before` parameters:
 
 ```js
 new CssToHtml({
-  …
+  ...,
   write: {
     ...,
     after: '<some-html-content>',
