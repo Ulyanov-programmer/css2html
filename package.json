@@ -5,6 +5,7 @@
   "description": "The library for converting CSS to HTML",
   "main": "index.js",
   "scripts": {},
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/Ulyanov-programmer/css-to-html"
