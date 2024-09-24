@@ -1,4 +1,4 @@
-Special thanks to the author of the idea [akopyl](https://habr.com/ru/users/akopyl/).
+Special thanks to the author of the idea [akopyl](https://github.com/anatolykopyl).
 
 ## What is this?
 
