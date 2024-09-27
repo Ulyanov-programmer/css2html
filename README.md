@@ -2,6 +2,9 @@ Special thanks to the author of the idea [akopyl](https://github.com/anatolykopy
 
 ## Installation
 
+> **Attention!** <br>
+> This library works with the APIs provided by `node.js` .
+
 ```shell
 npm i css2html
 ```
@@ -12,6 +15,10 @@ yarn add css2html
 
 ```js
 import { CssToHtml } from 'css2html';
+
+let result = new CssToHtml({ css: 'div{}' });
+
+console.log(result.outputHTML);
 ```
 
 ## What is this?
