@@ -242,16 +242,13 @@ new CssToHtml({
 
 #### Formatting
 
-Before giving you html, it is formatted by the [js-beatify](https://github.com/beautifier/js-beautify) library.
-If you want to change the formatting settings, pass them as a parameter:
+Before giving you html, it is formatted by the [prettier](https://github.com/prettier/prettier-synchronized) library.
+You can either enable or disable formatting:
 
 ```js
 new CssToHtml({
-  …
-  formatterOptions: {
-    indent_size: 2,
-  },
-})
+  format: true, // default value
+});
 ```
 
 ### If you find a bug, please create an issue [here](https://github.com/Ulyanov-programmer/css2html/issues).
