@@ -1,6 +1,6 @@
 import fs from 'fs-extra'
 import path from 'path'
-import beautify from 'js-beautify'
+import prettier from "@prettier/sync"
 import { parse } from '@adobe/css-tools'
 import { createParser } from 'css-selector-parser'
 import { ElementOfHtml } from './elementOfHtml.js'
@@ -28,18 +28,12 @@ export class CssToHtml {
   #elements = []
   #writeBefore
   #writeAfter
-  #formatterOptions = {
-    indent_size: 2,
-    max_preserve_newlines: -1,
-    preserve_newlines: false,
-  }
   #writeInFile = false
   outputHTML
 
-  constructor({ css, formatterOptions, write, }) {
+  constructor({ css, write, format = true, }) {
     this.#css = css
-
-    this.#formatterOptions = Object.assign(this.#formatterOptions, formatterOptions)
+    this.format = format
 
     if (write?.in) {
       this.#pathToHTML = path.normalize(write.in)
@@ -118,7 +112,11 @@ export class CssToHtml {
       }
     }
 
-    return beautify.html(newContent, this.#formatterOptions)
+    if (this.format) {
+      return prettier.format(newContent, { parser: "html" })
+    } else {
+      return newContent
+    }
   }
   #containsUnacceptableSelector(selector) {
     return CssToHtml.UNACCEPTABLE_SELECTORS.some(

@@ -73,13 +73,13 @@ export class ElementOfHtml {
       endOfString
   }
   #addTextBefore() {
-    this.#string += this.textBefore ? `${this.textBefore}` : ''
+    this.#string += this.textBefore ? ` ${this.textBefore}` : ''
   }
   #addTextAfter() {
     this.#string += this.textAfter ? `${this.textAfter}` : ''
   }
   #addText() {
-    this.#string += this.text ? `\n${this.text}` : ''
+    this.#string += this.text ? `${this.text}` : ''
   }
   #addInnerElements() {
     for (let innerElement of this.innerElements) {
@@ -88,7 +88,7 @@ export class ElementOfHtml {
   }
   #createEndString() {
     if (!this.#selfCloseTag) {
-      this.#string += '\n</' + this.tag + '>'
+      this.#string += '</' + this.tag + '>'
     }
   }
   searchInnerElements(elements, searchIndex) {
