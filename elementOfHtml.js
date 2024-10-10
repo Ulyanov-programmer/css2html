@@ -76,20 +76,23 @@ export class ElementOfHtml {
     this.#string += this.textBefore ? ` ${this.textBefore}` : ''
   }
   #addTextAfter() {
-    this.#string += this.textAfter ? `${this.textAfter}` : ''
+    this.#string += this.textAfter ? `${this.textAfter}\n` : '\n'
   }
   #addText() {
     this.#string += this.text ? `${this.text}` : ''
   }
   #addInnerElements() {
+    if (this.innerElements.length > 0) {
+      this.#string += '\n'
+    }
     for (let innerElement of this.innerElements) {
-      this.#string += '\n' + innerElement.string
+      this.#string += innerElement.string
     }
   }
   #createEndString() {
-    if (!this.#selfCloseTag) {
-      this.#string += '</' + this.tag + '>'
-    }
+    if (this.#selfCloseTag) return
+
+    this.#string += '</' + this.tag + '>'
   }
   searchInnerElements(elements, searchIndex) {
     for (++searchIndex; searchIndex < elements.length; searchIndex++) {

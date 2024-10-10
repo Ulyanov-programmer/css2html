@@ -1,11 +1,10 @@
 import fs from 'fs-extra'
 import path from 'path'
-import { createSyncFn } from 'synckit'
+import format from "html-format"
 import { parse } from '@adobe/css-tools'
 import { createParser } from 'css-selector-parser'
 import { ElementOfHtml } from './elementOfHtml.js'
 
-const syncFormatting = createSyncFn(path.resolve('./formatWorker.js'))
 
 export class CssToHtml {
   static ENCODING = 'utf8'
@@ -101,20 +100,31 @@ export class CssToHtml {
     if (this.#writeInFile) {
       newContent = this.#html.substring(0, contentStartIndex)
 
+      if (contentStartIndex)
+        newContent += '\n'
+
       for (let element of this.#elements) {
-        newContent += element.string + '\n'
+        newContent += element.string
       }
 
       newContent += this.#html.substring(contentEndIndex)
     }
     else {
       for (let element of this.#elements) {
-        newContent += element.string + '\n'
+        newContent += element.string
       }
     }
 
     if (this.format) {
-      return syncFormatting(newContent)
+      try {
+        return format(newContent, '  ')
+      }
+      catch (error) {
+        throw new Error(
+          `An error occurred during formatting, check your code!
+Perhaps this happened because the code that was converted turned out to be incorrect.`
+        )
+      }
     } else {
       return newContent
     }
