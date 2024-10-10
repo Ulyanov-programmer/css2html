@@ -1,10 +1,11 @@
 import fs from 'fs-extra'
 import path from 'path'
-import prettier from "@prettier/sync"
+import { createSyncFn } from 'synckit'
 import { parse } from '@adobe/css-tools'
 import { createParser } from 'css-selector-parser'
 import { ElementOfHtml } from './elementOfHtml.js'
 
+const syncFormatting = createSyncFn(path.resolve('./formatWorker.js'))
 
 export class CssToHtml {
   static ENCODING = 'utf8'
@@ -113,7 +114,7 @@ export class CssToHtml {
     }
 
     if (this.format) {
-      return prettier.format(newContent, { parser: "html" })
+      return syncFormatting(newContent)
     } else {
       return newContent
     }

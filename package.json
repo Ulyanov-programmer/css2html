@@ -26,10 +26,10 @@
   ],
   "dependencies": {
     "@adobe/css-tools": "^4.4.0",
-    "@prettier/sync": "^0.5.2",
     "css-selector-parser": "^3.0.5",
     "fs-extra": "^11.2.0",
-    "prettier": "^3.3.3"
+    "prettier": "^3.3.3",
+    "synckit": "^0.9.2"
   },
   "license": "ISC"
 }
