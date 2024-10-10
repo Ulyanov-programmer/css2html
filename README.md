@@ -119,6 +119,7 @@ Attributes can be set via a selector (_it can be useful for styling_), or you ca
 a[title='Title!'] {
   /* Specific attribute */
   --attr-href: './index.html';
+  --data-attribute: 'Value';
 
   /* And massively! */
   --attrs: 'target="_self" rel="noopener"';
@@ -126,7 +127,14 @@ a[title='Title!'] {
 ```
 
 ```html
-<a title="Title!" href="./index.html" target="_self" rel="noopener"> </a>
+<a
+  title="Title!"
+  data-attribute="Value"
+  href="./index.html"
+  target="_self"
+  rel="noopener"
+>
+</a>
 ```
 
 You can also add **text** to the tag via `--text` property:
@@ -148,15 +156,15 @@ div {
   --text: 'The text inside the div';
 }
 div span {
-  --text: 'The text inside span';
+  --text: ' The text inside span';
   --text-before: '| before';
-  --text-after: '| after';
+  --text-after: ' after';
 }
 ```
 
 ```html
 <div>
-  The text inside the div | before<span> The text inside span </span>| after
+  The text inside the div | before<span> The text inside span</span> after
 </div>
 ```
 
@@ -242,7 +250,7 @@ new CssToHtml({
 
 #### Formatting
 
-Before giving you html, it is formatted by the [prettier](https://github.com/prettier/prettier-synchronized) library.
+Before giving you html, it is formatted by the [html-format](https://www.npmjs.com/package/html-format) library.
 You can either enable or disable formatting:
 
 ```js

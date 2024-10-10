@@ -184,21 +184,17 @@ export class ElementOfHtml {
     }
   }
   #parseAttrVariable(declaration) {
-    let declName = declaration.property.split('-')[2]
-    let name, values
+    let [type, name, value] = this.#getDeclarationData(declaration)
 
-    switch (declName) {
+    switch (type) {
       case 'attr':
       case 'data':
-        // Deleting the "--attr-" in a variable
-        name = declaration.property.replace('--', '').replace('attr-', '')
-        values = declaration.value ? '=' + declaration.value : ''
-        return name + values
+        if (!value) { return name }
+
+        return name + `="${value}"`
 
       case 'attrs':
-        values = declaration.value.substring(1, declaration.value.length - 1)
-
-        return values
+        return value
     }
   }
 
@@ -207,5 +203,29 @@ export class ElementOfHtml {
   }
   #isInnerElement(element) {
     return element.parentSelector.startsWith(this.fullSelector)
+  }
+  #getDeclarationData(declaration) {
+    let type = declaration.property.split('-')[2],
+      name, value
+
+    if (declaration.property.includes('--attr')) {
+      name = declaration.property.replace('--attr-', '')
+    }
+    else if (declaration.property.includes('--data')) {
+      name = declaration.property.replace('--', '')
+    }
+
+    // Removing nested quotes
+    if (
+      declaration.value[0] == '"' ||
+      declaration.value[0] == "'" ||
+      declaration.value[0] == '`'
+    ) {
+      value = declaration.value.substring(1, declaration.value.length - 1)
+    } else {
+      value = declaration.value
+    }
+
+    return [type, name, value]
   }
 }
