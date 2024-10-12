@@ -135,17 +135,33 @@ export class ElementOfHtml {
     this.text = entryRule.declarations.find(
       decl => decl.property == '--text'
     )?.value
-    this.textBefore = entryRule.declarations.find(
-      decl => decl.property == '--text-before'
-    )?.value
-    this.textAfter = entryRule.declarations.find(
-      decl => decl.property == '--text-after'
-    )?.value
 
     // Removing extra quotes
-    this.text = this?.text?.substring(1, this.text.length - 1)
-    this.textBefore = this?.textBefore?.substring(1, this.textBefore.length - 1)
-    this.textAfter = this?.textAfter?.substring(1, this.textAfter.length - 1)
+    let splittedText = this.text
+      .split(',')
+      .map(str => str.trim().slice(1, -1))
+
+    switch (splittedText.length) {
+      case 1:
+        this.text = splittedText[0]
+        break
+      case 2:
+        [this.text, this.textAfter] = splittedText
+        break
+      default:
+        [this.textBefore, this.text, this.textAfter] = splittedText
+        break
+    }
+
+    this.textBefore ??= entryRule.declarations.find(
+      decl => decl.property == '--text-before'
+    )
+      ?.value.slice(1, -1)
+
+    this.textAfter ??= entryRule.declarations.find(
+      decl => decl.property == '--text-after'
+    )
+      ?.value.slice(1, -1)
   }
   #setParentAndSelfSelector(fullSelector) {
     let partsOfSelector = fullSelector.split(' ')
@@ -215,13 +231,9 @@ export class ElementOfHtml {
       name = declaration.property.replace('--', '')
     }
 
-    // Removing nested quotes
-    if (
-      declaration.value[0] == '"' ||
-      declaration.value[0] == "'" ||
-      declaration.value[0] == '`'
-    ) {
-      value = declaration.value.substring(1, declaration.value.length - 1)
+    if (/(")|(')|(`)/.test(declaration.value[0])) {
+      // Removing nested quotes
+      value = declaration.value.slice(1, -1)
     } else {
       value = declaration.value
     }
