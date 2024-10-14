@@ -56,6 +56,7 @@ export class ElementOfHtml {
 
     this.#setAttributes(entryRule)
     this.#setText(entryRule)
+    this.#setTextFromComments(entryRule)
     this.#setTag()
     this.#setId()
     this.#setClasses()
@@ -73,7 +74,7 @@ export class ElementOfHtml {
       endOfString
   }
   #addTextBefore() {
-    this.#string += this.textBefore ? ` ${this.textBefore}` : ''
+    this.#string += this.textBefore ? `${this.textBefore}` : ''
   }
   #addTextAfter() {
     this.#string += this.textAfter ? `${this.textAfter}\n` : '\n'
@@ -136,6 +137,8 @@ export class ElementOfHtml {
       decl => decl.property == '--text'
     )?.value
 
+    if (!this.text) return
+
     // Removing extra quotes
     let splittedText = this.text
       .split(',')
@@ -162,6 +165,32 @@ export class ElementOfHtml {
       decl => decl.property == '--text-after'
     )
       ?.value.slice(1, -1)
+  }
+  #setTextFromComments(entryRule) {
+    const replaceRegexp = / {1,}text(|-(before|after)): ?/
+
+    for (let decl of entryRule.declarations) {
+      let textDeclaration = decl?.comment?.match(/text-(before|after):|text:/i)?.at(0)
+
+      if (!textDeclaration) continue
+
+      let position = textDeclaration.toLowerCase().replace(':', '')
+      let text = decl.comment.replace(replaceRegexp, '')
+        // Removing one mandatory space at the end
+        .slice(0, -1)
+
+      switch (position) {
+        case 'text':
+          this.text = text
+          break
+        case 'text-before':
+          this.textBefore = text
+          break
+        case 'text-after':
+          this.textAfter = text
+          break
+      }
+    }
   }
   #setParentAndSelfSelector(fullSelector) {
     let partsOfSelector = fullSelector.split(' ')
