@@ -140,31 +140,17 @@ export class ElementOfHtml {
     if (!this.text) return
 
     // Removing extra quotes
-    let splittedText = this.text
-      .split(',')
-      .map(str => str.trim().slice(1, -1))
-
-    switch (splittedText.length) {
-      case 1:
-        this.text = splittedText[0]
-        break
-      case 2:
-        [this.text, this.textAfter] = splittedText
-        break
-      default:
-        [this.textBefore, this.text, this.textAfter] = splittedText
-        break
-    }
-
-    this.textBefore ??= entryRule.declarations.find(
+    this.textBefore = entryRule.declarations.find(
       decl => decl.property == '--text-before'
-    )
-      ?.value.slice(1, -1)
-
-    this.textAfter ??= entryRule.declarations.find(
+    )?.value
+    this.textAfter = entryRule.declarations.find(
       decl => decl.property == '--text-after'
-    )
-      ?.value.slice(1, -1)
+    )?.value
+
+    // Removing extra quotes
+    this.text = this?.text?.slice(1, -1)
+    this.textBefore = this?.textBefore?.slice(1, -1)
+    this.textAfter = this?.textAfter?.slice(1, -1)
   }
   #setTextFromComments(entryRule) {
     const replaceRegexp = / {1,}text(|-(before|after)): ?/
