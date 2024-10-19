@@ -153,28 +153,30 @@ export class ElementOfHtml {
     this.textAfter = this?.textAfter?.slice(1, -1)
   }
   #setTextFromComments(entryRule) {
-    const replaceRegexp = / {1,}text(|-(before|after)): ?/
-
     for (let decl of entryRule.declarations) {
-      let textDeclaration = decl?.comment?.match(/text-(before|after):|text:/i)?.at(0)
+      let textDeclarations = decl?.comment?.match(/@(inside|before|after)/gi)
 
-      if (!textDeclaration) continue
+      if (!textDeclarations) continue
 
-      let position = textDeclaration.toLowerCase().replace(':', '')
-      let text = decl.comment.replace(replaceRegexp, '')
-        // Removing one mandatory space at the end
-        .slice(0, -1)
+      for (let declType of textDeclarations) {
+        let position = declType.toLowerCase().replace('@', '')
+        let text = decl.comment
+          // Pulling text only for a specific position
+          .match(new RegExp(`(?<=${position}).*? (?=@|$)`, 's'))[0]
+          // Removing mandatory spaces at the beginning and at the end
+          .slice(1, -1)
 
-      switch (position) {
-        case 'text':
-          this.text = text
-          break
-        case 'text-before':
-          this.textBefore = text
-          break
-        case 'text-after':
-          this.textAfter = text
-          break
+        switch (position) {
+          case 'inside':
+            this.text = text
+            break
+          case 'before':
+            this.textBefore = text
+            break
+          case 'after':
+            this.textAfter = text
+            break
+        }
       }
     }
   }
