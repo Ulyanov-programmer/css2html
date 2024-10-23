@@ -162,9 +162,13 @@ export class ElementOfHtml {
         let position = declType.toLowerCase().replace('@', '')
         let text = decl.comment
           // Pulling text only for a specific position
-          .match(new RegExp(`(?<=${position}).*? (?=@|$)`, 's'))[0]
-          // Removing mandatory spaces at the beginning and at the end
-          .slice(1, -1)
+          .match(new RegExp(`(?<=${position}).*?(?=@|$)`, 's'))[0]
+
+        // Removing spaces necessary for readability of a comment
+        if (text.at(0) == ' ')
+          text = text.replace(' ', '')
+        if (text.at(-1) == ' ')
+          text = text.replace(/.$/, '')
 
         switch (position) {
           case 'inside':
