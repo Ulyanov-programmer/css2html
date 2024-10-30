@@ -71,7 +71,7 @@ test('Empty CSS should not be processed.', () => {
 })
 
 test('The code from the CSS file must be processed.', () => {
-  fs.writeFileSync(cssFilePath, 'div {} div span { /* @inside text */ }')
+  fs.writeFileSync(cssFilePath, 'div {} div span { /* <@>text</@> */ }')
 
   assert.equal(
     new CssToHtml({

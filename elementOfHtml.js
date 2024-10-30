@@ -56,7 +56,7 @@ export class ElementOfHtml {
 
     this.#setAttributes(entryRule)
     this.#setText(entryRule)
-    this.#setTextFromComments(entryRule)
+    this.#setTextFromComment(entryRule)
     this.#setTag()
     this.#setId()
     this.#setClasses()
@@ -152,37 +152,22 @@ export class ElementOfHtml {
     this.textBefore = this?.textBefore?.slice(1, -1)
     this.textAfter = this?.textAfter?.slice(1, -1)
   }
-  #setTextFromComments(entryRule) {
-    for (let decl of entryRule.declarations) {
-      let textDeclarations = decl?.comment?.match(/@(inside|before|after)/gi)
+  #setTextFromComment(entryRule) {
+    let commentWithText = entryRule.declarations.find(decl =>
+      decl?.comment?.match(/<@>.*<\/@>/s)[0]
+    )
+    if (!commentWithText) return
 
-      if (!textDeclarations) continue
+    // Removing spaces necessary for readability of a comment
+    commentWithText.comment = commentWithText.comment.slice(1, -1)
 
-      for (let declType of textDeclarations) {
-        let position = declType.toLowerCase().replace('@', '')
-        let text = decl.comment
-          // Pulling text only for a specific position
-          .match(new RegExp(`(?<=${position}).*?(?=@|$)`, 's'))[0]
+    let textBefore = commentWithText.comment.match(/^.*(?=<@>)/s)?.at(0)
+    let text = commentWithText.comment.match(/(?<=<@>).*?(?=<\/@>|$)/s)?.at(0)
+    let textAfter = commentWithText.comment.match(/(?<=<\/@>).*$/s)?.at(0)
 
-        // Removing spaces necessary for readability of a comment
-        if (text.at(0) == ' ')
-          text = text.replace(' ', '')
-        if (text.at(-1) == ' ')
-          text = text.replace(/.$/, '')
-
-        switch (position) {
-          case 'inside':
-            this.text = text
-            break
-          case 'before':
-            this.textBefore = text
-            break
-          case 'after':
-            this.textAfter = text
-            break
-        }
-      }
-    }
+    this.textBefore = textBefore
+    this.text = text
+    this.textAfter = textAfter
   }
   #setParentAndSelfSelector(fullSelector) {
     let partsOfSelector = fullSelector.split(' ')
