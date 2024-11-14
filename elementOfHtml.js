@@ -154,16 +154,16 @@ export class ElementOfHtml {
   }
   #setTextFromComment(entryRule) {
     let commentWithText = entryRule.declarations.find(decl =>
-      decl?.comment?.match(/<@>.*<\/@>/s)[0]
+      decl?.comment?.match(/{{.*}}/s)[0]
     )
     if (!commentWithText) return
 
     // Removing spaces necessary for readability of a comment
     commentWithText.comment = commentWithText.comment.slice(1, -1)
 
-    let textBefore = commentWithText.comment.match(/^.*(?=<@>)/s)?.at(0)
-    let text = commentWithText.comment.match(/(?<=<@>).*?(?=<\/@>|$)/s)?.at(0)
-    let textAfter = commentWithText.comment.match(/(?<=<\/@>).*$/s)?.at(0)
+    let textBefore = commentWithText.comment.match(/^.*(?={{)/s)?.at(0)
+    let text = commentWithText.comment.match(/(?<={{).*?(?=}}|$)/s)?.at(0)
+    let textAfter = commentWithText.comment.match(/(?<=}}).*$/s)?.at(0)
 
     this.textBefore = textBefore
     this.text = text

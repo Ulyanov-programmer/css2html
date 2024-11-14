@@ -5,7 +5,7 @@ import test from 'node:test'
 test('The text inside the tag must be processed', () => {
   assert.equal(
     new CssToHtml({
-      css: `div { /* <@>inner text</@> */ }`,
+      css: `div { /* {{inner text}} */ }`,
     })
       .outputHTML,
 
@@ -15,7 +15,7 @@ test('The text inside the tag must be processed', () => {
 test('The text before the tag must be processed', () => {
   assert.equal(
     new CssToHtml({
-      css: `div { /* before text<@></@> */ }`,
+      css: `div { /* before text{{}} */ }`,
     })
       .outputHTML,
 
@@ -25,7 +25,7 @@ test('The text before the tag must be processed', () => {
 test('The text after the tag must be processed', () => {
   assert.equal(
     new CssToHtml({
-      css: `div { /* <@></@>after text */ }`,
+      css: `div { /* {{}}after text */ }`,
     })
       .outputHTML,
 
@@ -35,7 +35,7 @@ test('The text after the tag must be processed', () => {
 test('The text without additional spaces should be saved without spaces.', () => {
   assert.equal(
     new CssToHtml({
-      css: `div { /* before text<@>inner text</@>after text */ }`,
+      css: `div { /* before text{{inner text}}after text */ }`,
     })
       .outputHTML,
 
@@ -46,7 +46,7 @@ test('The text with additional spaces should keep them.', () => {
   assert.match(
     new CssToHtml({
       css:
-        `div { /*  before text  <@>  inner text </@>  after text  */ }`,
+        `div { /*  before text  {{  inner text }}  after text  */ }`,
     })
       .outputHTML,
 
@@ -60,11 +60,11 @@ test('The text should be processed along with the new lines.', () => {
 div { /* 
     before 1
     before 2
-  <@>
+  {{
     inner 1
     inner 2
     inner 3
-  </@>after 1
+  }}after 1
     after 2 
 */ }`,
     })

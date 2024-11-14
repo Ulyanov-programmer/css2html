@@ -1,7 +1,6 @@
 import { CssToHtml } from '../cssToHtml.js'
 import assert from 'assert'
 import test from 'node:test'
-import { dot } from 'node:test/reporters'
 
 test('Attributes in the selector must be processed.', () => {
   assert.equal(
