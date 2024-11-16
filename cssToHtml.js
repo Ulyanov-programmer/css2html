@@ -104,15 +104,21 @@ export class CssToHtml {
         newContent += '\n'
 
       for (let element of this.#elements) {
-        newContent += element.string
+        newContent += element.string + '\n'
       }
+
+      if (contentEndIndex == 0)
+        // Deleting an extra new line at the end
+        newContent = newContent.slice(0, -1)
 
       newContent += this.#html.substring(contentEndIndex)
     }
     else {
       for (let element of this.#elements) {
-        newContent += element.string
+        newContent += element.string + '\n'
       }
+      // Deleting an extra new line at the end
+      newContent = newContent.slice(0, -1)
     }
 
     if (this.format) {

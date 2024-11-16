@@ -9,7 +9,7 @@ test('The text inside the tag must be processed', () => {
     })
       .outputHTML,
 
-    `<div>inner text</div>\n`
+    `<div>inner text</div>`
   )
 })
 test('The text before the tag must be processed', () => {
@@ -19,7 +19,7 @@ test('The text before the tag must be processed', () => {
     })
       .outputHTML,
 
-    `before text<div></div>\n`
+    `before text<div></div>`
   )
 })
 test('The text after the tag must be processed', () => {
@@ -29,7 +29,7 @@ test('The text after the tag must be processed', () => {
     })
       .outputHTML,
 
-    `<div></div>after text\n`
+    `<div></div>after text`
   )
 })
 test('The text without additional spaces should be saved without spaces.', () => {
@@ -39,46 +39,56 @@ test('The text without additional spaces should be saved without spaces.', () =>
     })
       .outputHTML,
 
-    `before text<div>inner text</div>after text\n`
+    `before text<div>inner text</div>after text`
   )
 })
 test('The text with additional spaces should keep them.', () => {
-  assert.match(
+  assert.equal(
     new CssToHtml({
       css:
-        `div { /*  before text  {{  inner text }}  after text  */ }`,
+        `div { 
+          /*  before text  {{ inner text }}  after text  */ 
+        }
+        div span {
+          /* 
+            before span  {{ inner 
+            span }}  after span 
+          */
+        }`,
     })
       .outputHTML,
 
-    / +before text +<div> +inner text +<\/div> +after text[\n]/,
+    ` before text <div> inner text
+  before span <span> inner
+    span </span> after span
+</div> after text`,
   )
 })
+
 test('The text should be processed along with the new lines.', () => {
   assert.equal(
     new CssToHtml({
       css: `
-div { /* 
-    before 1
-    before 2
+div { /*
+  before 1
+  before 2
   {{
     inner 1
     inner 2
     inner 3
   }}after 1
-    after 2 
+    after 2
 */ }`,
     })
       .outputHTML,
 
-    `
-before 1
+    ` before 1
 before 2
 <div>
   inner 1
   inner 2
   inner 3
 </div>after 1
-after 2
-`,
+after 2`,
   )
 })

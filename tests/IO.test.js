@@ -9,19 +9,21 @@ const htmlFilePath = path.resolve(import.meta.dirname + '/helpers/test.html')
 const cssFilePath = path.resolve(import.meta.dirname + '/helpers/test.css')
 
 test('Writing code to a file should work.', () => {
+  fs.writeFileSync(htmlFilePath, '')
+
   new CssToHtml({
     css: `div {}`,
     write: { in: htmlFilePath }
   })
 
-  assert.equal(fs.readFileSync(htmlFilePath, 'utf8'), '<div></div>\n')
+  assert.equal(fs.readFileSync(htmlFilePath, 'utf8'), '<div></div>')
 })
 
 test('The code must be written after certain content.', () => {
   fs.writeFileSync(htmlFilePath,
     `<some-html-content>
-  </some-html-content>
-`)
+  </some-html-content>`)
+
   new CssToHtml({
     css: `div {}`,
     write: {
@@ -40,8 +42,7 @@ test('The code must be written after certain content.', () => {
 test('The code must be written before and after certain content.', () => {
   fs.writeFileSync(htmlFilePath,
     `<some-html-content>
-  </some-html-content>
-`)
+  </some-html-content>`)
   new CssToHtml({
     css: `div {}`,
     write: {
@@ -54,8 +55,7 @@ test('The code must be written before and after certain content.', () => {
   assert.equal(fs.readFileSync(htmlFilePath, 'utf8'),
     `<some-html-content>
   <div></div>
-</some-html-content>
-`)
+</some-html-content>`)
 })
 
 test('Empty CSS should not be processed.', () => {
@@ -80,8 +80,7 @@ test('The code from the CSS file must be processed.', () => {
 
     `<div>
   <span>text</span>
-</div>
-`)
+</div>`)
 })
 
 

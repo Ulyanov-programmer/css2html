@@ -77,17 +77,24 @@ export class ElementOfHtml {
     this.#string += this.textBefore ? `${this.textBefore}` : ''
   }
   #addTextAfter() {
-    this.#string += this.textAfter ? `${this.textAfter}\n` : '\n'
+    this.#string += this.textAfter ? `${this.textAfter}` : ''
   }
   #addText() {
     this.#string += this.text ? `${this.text}` : ''
   }
   #addInnerElements() {
-    if (this.innerElements.length > 0) {
+    if (this.innerElements.length <= 0) return
+
+    if (!this.innerElements[0].textBefore) {
       this.#string += '\n'
     }
-    for (let innerElement of this.innerElements) {
+
+    for (let innerElement of this.innerElements ?? []) {
       this.#string += innerElement.string
+
+      if (!innerElement.textAfter) {
+        this.#string += '\n'
+      }
     }
   }
   #createEndString() {
@@ -155,15 +162,16 @@ export class ElementOfHtml {
   #setTextFromComment(entryRule) {
     let commentWithText = entryRule.declarations.find(decl =>
       decl?.comment?.match(/{{.*}}/s)[0]
-    )
+    )?.comment
+
     if (!commentWithText) return
 
     // Removing spaces necessary for readability of a comment
-    commentWithText.comment = commentWithText.comment.slice(1, -1)
+    commentWithText = commentWithText.slice(1, -1)
 
-    let textBefore = commentWithText.comment.match(/^.*(?={{)/s)?.at(0)
-    let text = commentWithText.comment.match(/(?<={{).*?(?=}}|$)/s)?.at(0)
-    let textAfter = commentWithText.comment.match(/(?<=}}).*$/s)?.at(0)
+    let textBefore = commentWithText.match(/^.*(?={{)/s)?.at(0)
+    let text = commentWithText.match(/(?<={{).*?(?=}}|$)/s)?.at(0)
+    let textAfter = commentWithText.match(/(?<=}}).*$/s)?.at(0)
 
     this.textBefore = textBefore
     this.text = text

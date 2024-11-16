@@ -14,8 +14,7 @@ test('The code must be converted.', () => {
   <span></span>
 </div>
 <custom-tag></custom-tag>
-<input />
-`,
+<input />`,
   )
 })
 test('With formatting turned off, the code should look ugly.', () => {
@@ -48,7 +47,7 @@ test('The selector must be fully processed.', () => {
     })
       .outputHTML,
 
-    '<div id="some-id" class="some-class class2" data-attr></div>\n',
+    '<div id="some-id" class="some-class class2" data-attr></div>',
   )
 })
 

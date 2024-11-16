@@ -9,7 +9,7 @@ test('Attributes in the selector must be processed.', () => {
     })
       .outputHTML,
 
-    '<div attr-1 data-attr role="button"></div>\n',
+    '<div attr-1 data-attr role="button"></div>',
   )
 })
 test('Attributes in the rule must be processed.', () => {
@@ -25,6 +25,6 @@ div {
     })
       .outputHTML,
 
-    '<div href="#" role="button" data-attr="15" tabindex="0" data-v></div>\n',
+    '<div href="#" role="button" data-attr="15" tabindex="0" data-v></div>',
   )
 })
