@@ -92,7 +92,7 @@ export class ElementOfHtml {
     for (let innerElement of this.innerElements ?? []) {
       this.#string += innerElement.string
 
-      if (!innerElement.textAfter) {
+      if (!innerElement.string?.match(/\n *$/gm)) {
         this.#string += '\n'
       }
     }

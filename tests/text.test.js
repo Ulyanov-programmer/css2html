@@ -2,6 +2,21 @@ import { CssToHtml } from '../cssToHtml.js'
 import assert from 'assert'
 import test from 'node:test'
 
+test('New lines are placed correctly', () => {
+  assert.equal(
+    new CssToHtml({
+      css: `
+div { /* {{ text inside }} */ }
+div i {  /* {{ text of i }} after */ }
+`,
+    })
+      .outputHTML,
+
+    `<div> text inside
+  <i> text of i </i> after
+</div>`
+  )
+})
 test('The text inside the tag must be processed', () => {
   assert.equal(
     new CssToHtml({
@@ -64,7 +79,6 @@ test('The text with additional spaces should keep them.', () => {
 </div> after text`,
   )
 })
-
 test('The text should be processed along with the new lines.', () => {
   assert.equal(
     new CssToHtml({
