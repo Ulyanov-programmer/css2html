@@ -27,18 +27,23 @@ It converts this:
 
 ```css
 section#some-id {
-  --text: 'This is text!';
+  /* {{ This is text inside }} */
   --attr-title: 'Title';
+
   background: red;
   color: aliceblue;
 }
 section#some-id header[data-attribute='v'] {
-  --text: 'This is the header text';
+  /* {{ This is the header text }} */
+
   color: blue;
 }
 section#some-id span {
-  --text: 'Text of span';
-  --text-after: 'Text after';
+  /* 
+    {{ Text of span }} 
+    Text after 
+  */
+
   color: peru;
 }
 ```
@@ -47,9 +52,10 @@ To this:
 
 ```html
 <section id="some-id" title="Title">
-  This is text!
+  This is text inside
   <header data-attribute="v">This is the header text</header>
-  <span> Text of span </span>Text after
+  <span>Text of span</span>
+  Text after
 </section>
 ```
 
@@ -137,35 +143,31 @@ a[title='Title!'] {
 </a>
 ```
 
-You can also add **text** to the tag via `--text` property:
+You can add text inside the tag using **comments** or **variables**:
 
 ```css
+/* The old way is not recommended for use */
 div {
-  --text: 'The battle continues again';
+  --text-before: 'The battle ';
+  --text: 'continues';
+  --text-after: ' again';
+}
+/* New way, recommended for use. Curly braces are required! */
+section {
+  /* 
+    The battle
+    {{ continues }}
+    again
+  */
 }
 ```
 
 ```html
-<div>The battle continues again</div>
-```
+The battle <div>continues</div> again
 
-In order to insert a tag _between the text_, you will definitely need special properties that allow you to enter text before and after the tag: `--text-before` and `--text-after`
-
-```css
-div {
-  --text: 'The text inside the div';
-}
-div span {
-  --text: ' The text inside span';
-  --text-before: '| before';
-  --text-after: ' after';
-}
-```
-
-```html
-<div>
-  The text inside the div | before<span> The text inside span</span> after
-</div>
+The battle
+<section> continues </section>
+again
 ```
 
 ## API
