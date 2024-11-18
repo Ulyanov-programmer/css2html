@@ -169,13 +169,22 @@ export class ElementOfHtml {
     // Removing spaces necessary for readability of a comment
     commentWithText = commentWithText.slice(1, -1)
 
-    let textBefore = commentWithText.match(/^.*(?={{)/s)?.at(0)
-    let text = commentWithText.match(/(?<={{).*?(?=}}|$)/s)?.at(0)
-    let textAfter = commentWithText.match(/(?<=}}).*$/s)?.at(0)
+    let text = [
+      // Get everything up to {{
+      commentWithText.match(/^.*(?={{)/s)?.at(0),
+      // Get everything in {{ }}
+      commentWithText.match(/(?<={{).*?(?=}}|$)/s)?.at(0),
+      // Get everything after }}
+      commentWithText.match(/(?<=}}).*$/s)?.at(0)
+    ]
 
-    this.textBefore = textBefore
-    this.text = text
-    this.textAfter = textAfter
+    for (let i = 0; i < text.length; i++) {
+      if (!text[i]?.trim()) {
+        text[i] = ''
+      }
+    }
+
+    [this.textBefore, this.text, this.textAfter] = text
   }
   #setParentAndSelfSelector(fullSelector) {
     let partsOfSelector = fullSelector.split(' ')

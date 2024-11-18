@@ -6,7 +6,10 @@ test('New lines are placed correctly', () => {
   assert.equal(
     new CssToHtml({
       css: `
-div { /* {{ text inside }} */ }
+div { /* 
+  {{ text inside }}
+
+*/ }
 div i {  /* {{ text of i }} after */ }
 `,
     })
