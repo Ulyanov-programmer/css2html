@@ -5,7 +5,8 @@
   "description": "The library for converting CSS to HTML",
   "main": "index.js",
   "scripts": {
-    "test": "node --test --watch"
+    "test": "node --test --watch",
+    "test-only": "node --test --watch --test-only"
   },
   "type": "module",
   "repository": {

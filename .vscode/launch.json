@@ -2,9 +2,9 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch tests via NPM",
+      "name": "Run only the marked tests via terminal",
       "type": "node-terminal",
-      "command": "npm test",
+      "command": "npm run test-only",
       "request": "launch"
     }
   ]
